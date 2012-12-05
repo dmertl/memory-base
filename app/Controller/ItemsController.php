@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppController', 'Controller');
+
 /**
  * Items Controller
  *
@@ -7,40 +9,40 @@ App::uses('AppController', 'Controller');
  */
 class ItemsController extends AppController {
 
-/**
- * index method
- *
- * @return void
- */
+	/**
+	 * index method
+	 *
+	 * @return void
+	 */
 	public function index() {
 		$this->Item->recursive = 0;
 		$this->set('items', $this->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+	 * view method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
 	public function view($id = null) {
 		$this->Item->id = $id;
-		if (!$this->Item->exists()) {
+		if(!$this->Item->exists()) {
 			throw new NotFoundException(__('Invalid item'));
 		}
 		$this->set('item', $this->Item->read(null, $id));
 	}
 
-/**
- * add method
- *
- * @return void
- */
+	/**
+	 * add method
+	 *
+	 * @return void
+	 */
 	public function add() {
-		if ($this->request->is('post')) {
+		if($this->request->is('post')) {
 			$this->Item->create();
-			if ($this->Item->save($this->request->data)) {
+			if($this->Item->save($this->request->data)) {
 				$this->Session->setFlash(__('The item has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -51,20 +53,20 @@ class ItemsController extends AppController {
 		$this->set(compact('categories'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+	 * edit method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
 	public function edit($id = null) {
 		$this->Item->id = $id;
-		if (!$this->Item->exists()) {
+		if(!$this->Item->exists()) {
 			throw new NotFoundException(__('Invalid item'));
 		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Item->save($this->request->data)) {
+		if($this->request->is('post') || $this->request->is('put')) {
+			if($this->Item->save($this->request->data)) {
 				$this->Session->setFlash(__('The item has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -77,23 +79,23 @@ class ItemsController extends AppController {
 		$this->set(compact('categories'));
 	}
 
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	/**
+	 * delete method
+	 *
+	 * @throws MethodNotAllowedException
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
 	public function delete($id = null) {
-		if (!$this->request->is('post')) {
+		if(!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}
 		$this->Item->id = $id;
-		if (!$this->Item->exists()) {
+		if(!$this->Item->exists()) {
 			throw new NotFoundException(__('Invalid item'));
 		}
-		if ($this->Item->delete()) {
+		if($this->Item->delete()) {
 			$this->Session->setFlash(__('Item deleted'));
 			$this->redirect(array('action' => 'index'));
 		}

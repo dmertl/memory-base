@@ -1,5 +1,7 @@
 <?php
+
 App::uses('AppModel', 'Model');
+
 /**
  * Tag Model
  *
@@ -7,28 +9,19 @@ App::uses('AppModel', 'Model');
  */
 class Tag extends AppModel {
 
-/**
- * Display field
- *
- * @var string
- */
+	/**
+	 * Display field
+	 *
+	 * @var string
+	 */
 	public $displayField = 'tag';
 
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
 	public $belongsTo = array(
-		'Item' => array(
-			'className' => 'Item',
-			'foreignKey' => 'item_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+		'Item'
 	);
 }
