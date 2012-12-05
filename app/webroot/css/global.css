@@ -1,0 +1,32 @@
+/* Colors
+Bright Pink #FE4365
+Dull Pink #FC9D9A
+Peach #F9CDAD
+Olive #C8C8A9
+Seafoam #83AF9B
+
+Color Variations
+Light seafoam bg: #F3F7F5
+Light peach hover: #fce8d9
+*/
+/* Tags */
+.ti-container .ti-tag-list {
+	background-color: #F3F7F5;
+	border: 1px solid #666;
+	border-radius: 5px 5px 5px 5px;
+	padding: 15px;
+	list-style: none;
+	margin: 0;
+}
+.ti-container .ti-tag-list li {
+	display: inline-block;
+	margin-right: 10px;
+	padding: 3px 3px 3px 15px;
+	border: 1px solid #AAAAAA;
+	border-radius: 5px 5px 5px 5px;
+	background-color: #FFFFFF;
+	cursor: pointer;
+}
+.ti-container .ti-tag-list li:hover {
+	background-color: #fce8d9;
+}

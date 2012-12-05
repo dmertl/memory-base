@@ -10,6 +10,25 @@ App::uses('AppController', 'Controller');
 class ItemsController extends AppController {
 
 	/**
+	 * store method
+	 *
+	 * @return void
+	 */
+	public function store() {
+		if($this->request->is('post')) {
+			$this->Item->create();
+			if($this->Item->save($this->request->data)) {
+				$this->Session->setFlash(__('The item has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The item could not be saved. Please, try again.'));
+			}
+		}
+		$categories = $this->Item->Category->find('list');
+		$this->set(compact('categories'));
+	}
+
+	/**
 	 * index method
 	 *
 	 * @return void
