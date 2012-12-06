@@ -11,18 +11,21 @@
 				//Append UI to element
 				element.append(methods._createUiContainerElement());
 				//Add any tags passed in through options
-				for(var i = 0; i < options.tags.length; i++) {
-					element.tagInput('addTag', options.tags[i]);
-				}
+				element.tagInput('addTag', options.tags);
 			});
 		},
 		/**
 		 * Add a tag
-		 * @param name
+		 * @param tag
 		 * @return {*}
 		 */
-		addTag: function(name) {
-			this.find('.ti-tag-list').append(methods._createTagUiElement(name));
+		addTag: function(tag) {
+			if(typeof tag === 'string') {
+				tag = [tag];
+			}
+			for(var i = 0; i < tag.length; i++) {
+				this.find('.ti-tag-list').append(methods._createTagUiElement(tag[i]));
+			}
 			return this;
 		},
 		/**
@@ -33,6 +36,27 @@
 			return this.find('.ti-tag-list li').map(function() {
 				return $(this).html();
 			});
+		},
+		onInputChange: function() {
+			var e_this = $(this);
+			var input_value = e_this.val();
+			if(input_value) {
+				var tags = methods._parseTagInput(input_value);
+				if(tags.length) {
+					e_this.closest('.ti-container').parent().tagInput('addTag', tags);
+					//Remove completed tags from input
+					e_this.val(input_value.replace(/[^,]+,/g, ''));
+				}
+			}
+		},
+		_parseTagInput: function(input) {
+			//Simple tag matching using regex
+			var matches = input.match(/[^,]+,/g);
+			if(matches) {
+				return matches.map(function(n) { return n.replace(',', '').trim(); });
+			} else {
+				return [];
+			}
 		},
 		_createUiContainerElement: function() {
 			return $('<div class="ti-container"></div>')
@@ -45,7 +69,8 @@
 			return $('<label for="ti-tag-input">Tags</label>');
 		},
 		_createInputUiElement: function() {
-			return $('<input type="text" name="ti-tag-input" id="ti-tag-input" />');
+			return $('<input type="text" name="ti-tag-input" id="ti-tag-input" />')
+					.on('keyup', methods.onInputChange);
 		},
 		_createListUiElement: function() {
 			return $('<ul class="ti-tag-list"></ul>');
