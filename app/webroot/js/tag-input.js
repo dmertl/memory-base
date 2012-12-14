@@ -1,3 +1,8 @@
+/**
+ * TODO: Add method for taking all tags, serializing, and saving to form input on submit
+ * TODO: Secondary method for AJAX saving tags. Do not add tag element until AJAX confirmation.
+ * TODO: Support quote encapsulated tags to allow for commas.
+ */
 (function($) {
 
 	var methods = {
