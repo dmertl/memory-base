@@ -2,7 +2,7 @@
 
 	var methods = {
 		init: function(options) {
-			var settings = $.extend( {
+			var settings = $.extend({
 				"tags": []
 			}, options);
 
@@ -23,8 +23,11 @@
 			if(typeof tag === 'string') {
 				tag = [tag];
 			}
+			var tag_list = this.find('.ti-tag-list');
 			for(var i = 0; i < tag.length; i++) {
-				this.find('.ti-tag-list').append(methods._createTagUiElement(tag[i]));
+				if(!tag_list.find('li[title="' + tag[i] + '"]').length) {
+					tag_list.append(methods._createTagUiElement(tag[i]));
+				}
 			}
 			return this;
 		},
@@ -37,6 +40,9 @@
 				return $(this).html();
 			});
 		},
+		/**
+		 * Event listener when input field changes
+		 */
 		onInputChange: function() {
 			var e_this = $(this);
 			var input_value = e_this.val();
@@ -76,7 +82,7 @@
 			return $('<ul class="ti-tag-list"></ul>');
 		},
 		_createTagUiElement: function(name) {
-			return $('<li></li>').html(name);
+			return $('<li></li>').prop('title', name).html(name);
 		}
 	};
 
