@@ -6,9 +6,7 @@
 		<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('category_id');
-		?>
-		<div id="tag-input"></div>
-		<?php
+		echo $this->Form->input('tags');
 		echo $this->Form->input('notes');
 		?>
     </fieldset>
@@ -26,9 +24,9 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#tag-input').tagInput({
+		$('#ItemTags').tagInput({
 			"tags": ["a", "test", "test longer tag"]
 		});
-        console.log($('#tag-input').tagInput('getTags'));
+        console.log($('#ItemTags').tagInput('getTags'));
 	});
 </script>

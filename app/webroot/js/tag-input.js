@@ -7,11 +7,23 @@
 			}, options);
 
 			return this.each(function() {
-				var element = $(this);
-				//Append UI to element
-				element.append(methods._createUiContainerElement());
+				var $this = $(this),
+						tag_list = methods._createListUiElement();
+
+				//Attach event listener to input element
+				$this.on('keyup', methods.onInputChange);
+
+				//Insert tag list UI
+				$this.after(tag_list);
+
+				//Save reference to elements
+				$this.data('tag-input', {
+					'input': $this,
+					'tagList': tag_list
+				});
+
 				//Add any tags passed in through options
-				element.tagInput('addTag', options.tags);
+				$this.tagInput('addTag', options.tags);
 			});
 		},
 		/**
@@ -20,11 +32,12 @@
 		 * @return {*}
 		 */
 		addTag: function(tag) {
+			var tag_list = $(this).data('tag-input')['tagList'];
 			if(typeof tag === 'string') {
 				tag = [tag];
 			}
-			var tag_list = this.find('.ti-tag-list');
 			for(var i = 0; i < tag.length; i++) {
+				//Add tag if it does not already exist
 				if(!tag_list.find('li[title="' + tag[i] + '"]').length) {
 					tag_list.append(methods._createTagUiElement(tag[i]));
 				}
@@ -36,7 +49,8 @@
 		 * @return Array
 		 */
 		getTags: function() {
-			return this.find('.ti-tag-list li').map(function() {
+			var tag_list = $(this).data('tag-input')['tagList'];
+			return tag_list.find('li').map(function() {
 				return $(this).html();
 			});
 		},
@@ -44,14 +58,15 @@
 		 * Event listener when input field changes
 		 */
 		onInputChange: function() {
-			var e_this = $(this);
-			var input_value = e_this.val();
+			var $this = $(this),
+				input_value = $this.val();
+
 			if(input_value) {
 				var tags = methods._parseTagInput(input_value);
 				if(tags.length) {
-					e_this.closest('.ti-container').parent().tagInput('addTag', tags);
+					$this.tagInput('addTag', tags);
 					//Remove completed tags from input
-					e_this.val(input_value.replace(/[^,]+,/g, ''));
+					$this.val(input_value.replace(/[^,]+,/g, ''));
 				}
 			}
 		},
@@ -63,20 +78,6 @@
 			} else {
 				return [];
 			}
-		},
-		_createUiContainerElement: function() {
-			return $('<div class="ti-container"></div>')
-					.append(methods._createLabelUiElement())
-					.append(methods._createInputUiElement())
-					.append(methods._createListUiElement());
-
-		},
-		_createLabelUiElement: function() {
-			return $('<label for="ti-tag-input">Tags</label>');
-		},
-		_createInputUiElement: function() {
-			return $('<input type="text" name="ti-tag-input" id="ti-tag-input" />')
-					.on('keyup', methods.onInputChange);
 		},
 		_createListUiElement: function() {
 			return $('<ul class="ti-tag-list"></ul>');
