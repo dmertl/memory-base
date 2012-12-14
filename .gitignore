@@ -6,3 +6,5 @@ app/tmp/cache/views/*
 app/tmp/logs/*
 app/tmp/session/*
 app/tmp/tests/*
+.idea
+.DS_Store
