@@ -34,7 +34,7 @@
 		<li><?php echo $this->Html->link(__('Edit Item'), array('action' => 'edit', $item['Item']['id'])); ?> </li>
 		<li><?php echo $this->Form->postLink(__('Delete Item'), array('action' => 'delete', $item['Item']['id']), null, __('Are you sure you want to delete # %s?', $item['Item']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Items'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Item'), array('action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Item'), array('action' => 'store')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Categories'), array('controller' => 'categories', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Category'), array('controller' => 'categories', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Tags'), array('controller' => 'tags', 'action' => 'index')); ?> </li>
