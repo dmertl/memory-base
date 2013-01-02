@@ -9,6 +9,12 @@ App::uses('AppController', 'Controller');
  */
 class CategoriesController extends AppController {
 
+	public function dashboard() {
+		$this->set('categories', $this->Category->find('all', array(
+			'limit' => 10
+		)));
+	}
+
 	/**
 	 * index method
 	 *
