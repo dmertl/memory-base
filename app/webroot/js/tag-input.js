@@ -11,12 +11,18 @@
 				"tags": []
 			}, options);
 
+			//Add listener to form submit
+			this.closest('form').on('submit', methods.onFormSubmit);
+
 			return this.each(function() {
 				var $this = $(this),
 						tag_list = methods._createListUiElement();
 
 				//Attach event listener to input element
 				$this.on('keyup', methods.onInputChange);
+
+				//Add tag input class to input element
+				$this.addClass('ti-tag-input');
 
 				//Insert tag list UI
 				$this.after(tag_list);
@@ -55,9 +61,9 @@
 		 */
 		getTags: function() {
 			var tag_list = $(this).data('tag-input')['tagList'];
-			return tag_list.find('li').map(function() {
+			return $.makeArray(tag_list.find('li').map(function() {
 				return $(this).html();
-			});
+			}));
 		},
 		/**
 		 * Event listener when input field changes
@@ -74,6 +80,14 @@
 					$this.val(input_value.replace(/[^,]+,/g, ''));
 				}
 			}
+		},
+		/**
+		 * Event listener when input field's form is submitted
+		 */
+		onFormSubmit: function(e) {
+			$(this).find('input.ti-tag-input').each(function() {
+				$(this).val($(this).tagInput('getTags').join(', '));
+			});
 		},
 		_parseTagInput: function(input) {
 			//Simple tag matching using regex
