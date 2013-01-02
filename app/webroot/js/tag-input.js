@@ -18,8 +18,11 @@
 				var $this = $(this),
 						tag_list = methods._createListUiElement();
 
-				//Attach event listener to input element
+				//Attach key up event listener to input element
 				$this.on('keyup', methods.onInputChange);
+
+				//Attach blur event listener to input element
+				$this.on('blur', methods.onInputBlur);
 
 				//Add tag input class to input element
 				$this.addClass('ti-tag-input');
@@ -79,6 +82,15 @@
 					//Remove completed tags from input
 					$this.val(input_value.replace(/[^,]+,/g, ''));
 				}
+			}
+		},
+		/**
+		 * Event listener when input field blurs
+		 */
+		onInputBlur: function() {
+			var $this = $(this);
+			if($this.val()) {
+				$this.tagInput('addTag', $this.val()).val('');
 			}
 		},
 		/**
