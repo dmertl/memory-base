@@ -24,9 +24,6 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#ItemTags').tagInput({
-			"tags": ["a", "test", "test longer tag"]
-		});
-        console.log($('#ItemTags').tagInput('getTags'));
+		$('#ItemTags').tagInput();
 	});
 </script>

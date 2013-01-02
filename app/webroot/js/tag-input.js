@@ -1,7 +1,7 @@
 /**
- * TODO: Add method for taking all tags, serializing, and saving to form input on submit
- * TODO: Secondary method for AJAX saving tags. Do not add tag element until AJAX confirmation.
- * TODO: Support quote encapsulated tags to allow for commas.
+ * jQuery TagInput plugin.
+ * Adds delicious style tag entry to an input element.
+ * @author David Mertl <dmertl@gmail.com>
  */
 (function($) {
 
@@ -34,7 +34,7 @@
 				});
 
 				//Add any tags passed in through options
-				$this.tagInput('addTag', options.tags);
+				$this.tagInput('addTag', settings.tags);
 			});
 		},
 		/**
