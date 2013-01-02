@@ -6,8 +6,11 @@ App::uses('AppController', 'Controller');
  * Items Controller
  *
  * @property Item $Item
+ * @property Tag $Tag
  */
 class ItemsController extends AppController {
+
+	var $uses = array('Item', 'Tag');
 
 	/**
 	 * store method
@@ -16,10 +19,19 @@ class ItemsController extends AppController {
 	 */
 	public function store() {
 		if($this->request->is('post')) {
+			//Parse tags from tag input element
+			$tag_csv = $this->request->data['Item']['tags'];
+			unset($this->request->data['Item']['tags']);
+			//Save Item
 			$this->Item->create();
 			if($this->Item->save($this->request->data)) {
-				$this->Session->setFlash(__('The item has been saved'));
-				$this->redirect(array('action' => 'index'));
+				//Save Tags
+				if($this->_saveTagsFromCsv($tag_csv, $this->Item->id)) {
+					$this->Session->setFlash(__('The item has been saved'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('Unable to save tags.'));
+				}
 			} else {
 				$this->Session->setFlash(__('The item could not be saved. Please, try again.'));
 			}
@@ -121,4 +133,23 @@ class ItemsController extends AppController {
 		$this->Session->setFlash(__('Item was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
+	/**
+	 * Save Tags for Item from CSV
+	 * @param string $tag_csv CSV of tags
+	 * @param int $item_id ID of Item to associate tags with
+	 * @return bool
+	 */
+	protected function _saveTagsFromCsv($tag_csv, $item_id) {
+		$tags = $this->Item->tagCsvToModel($tag_csv, $item_id);
+		$tags_success = true;
+		foreach($tags as $tag) {
+			$this->Tag->create();
+			if(!$this->Tag->save($tag)) {
+				$tags_success = false;
+			}
+		}
+		return $tags_success;
+	}
+
 }

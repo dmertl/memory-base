@@ -22,7 +22,9 @@ class Category extends AppModel {
 	 * @var array
 	 */
 	public $hasMany = array(
-		'Item'
+		'Item' => array(
+			'dependent' => true
+		)
 	);
 
 }
